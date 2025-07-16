@@ -1,6 +1,8 @@
 import { User } from "@/types/user";
 import { STORAGE_URL } from "@/constants/config";
 import { useRouter } from "next/navigation";
+import { BiSolidFilePdf } from "react-icons/bi";
+import { FaFileExcel } from "react-icons/fa6";
 
 interface Props {
   user: User;
@@ -12,12 +14,12 @@ export default function UserRow({ user, onDelete }: Props) {
 
   return (
     <tr className="border-b hover:bg-gray-50">
-      <td className="p-3">
+      <td className="p-3 text-center align-middle w-[200px]">
         {user.image_path ? (
           <img
             src={`${STORAGE_URL}/${user.image_path}`}
             alt="Foto Profil"
-            className="w-20 h-auto object-cover rounded-md"
+            className="w-[120px] h-[120px] object-cover rounded-[10px] justify-center items-center"
           />
         ) : (
           <span className="text-gray-400">-</span>
@@ -25,52 +27,51 @@ export default function UserRow({ user, onDelete }: Props) {
       </td>
       <td className="p-3">{user.name}</td>
       <td className="p-3">{user.email}</td>
-      <td className="p-3">
+      <td className="p-3 text-center align-middle">
         {user.pdf_path ? (
           <a
             href={`${STORAGE_URL}/${user.pdf_path}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-indigo-600 hover:underline"
+            className="flex justify-center items-center"
           >
-            📄 PDF
+            <BiSolidFilePdf className="w-8 h-8 text-red-600" />
           </a>
         ) : (
           <span className="text-gray-400">-</span>
         )}
       </td>
-      <td className="p-3">
+      <td className="p-3 text-center align-middle">
         {user.excel_path ? (
           <a
             href={`${STORAGE_URL}/${user.excel_path}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-indigo-600 hover:underline"
+            className="flex justify-center items-center"
           >
-            📊 Excel
+            <FaFileExcel className="w-7 h-7 text-green-600" />
           </a>
         ) : (
           <span className="text-gray-400">-</span>
         )}
       </td>
-      <td className="p-3 text-center">
+      <td className="text-center w-[220px]">
         <div className="flex justify-center gap-2">
           <button
-            onClick={() => router.push(`/users/${user.id}/edit`)}
-            className="bg-indigo-500 hover:bg-indigo-600 text-white px-3 py-1 rounded-md text-sm"
+            onClick={() => router.push(`/users/update/${user.id}`)}
+            className="bg-[rgba(120,120,255,0.44)] hover:bg-[rgba(120,120,255,0.6)] text-[rgba(120,120,255,1)] rounded-md text-[12px] font-bold w-[60px] h-[30px]"
           >
             Edit
           </button>
-          <a
-            href={`${STORAGE_URL}/${user.image_path}`}
-            target="_blank"
-            className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-md text-sm"
+          <button
+            onClick={() => router.push(`/users/detail/${user.id}`)}
+            className="bg-[rgba(0,111,255,0.44)] hover:bg-[rgba(0,111,255,0.6)] text-[rgba(0,111,255,1)] py-1 rounded-md text-[12px] font-bold w-[60px] h-[30px]"
           >
-            Lihat
-          </a>
+            Detail
+          </button>
           <button
             onClick={() => onDelete(user.id)}
-            className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-md text-sm"
+            className="bg-[rgba(255,0,0,0.23)] hover:bg-[rgba(255,0,0,0.4)] text-[rgba(255,0,0,1)] rounded-md text-[12px] font-bold w-[60px] h-[30px]"
           >
             Hapus
           </button>

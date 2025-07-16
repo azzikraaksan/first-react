@@ -3,26 +3,25 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createUser } from "@/lib/api";
+import InputField from "@/components/InputField";
+import FileInput from "@/components/FileInput";
+
+const initialFormState = {
+  name: "",
+  email: "",
+  password: "",
+  image: null as File | null,
+  pdf: null as File | null,
+  excel: null as File | null,
+};
 
 export default function CreateUserPage() {
   const router = useRouter();
-
-  const [form, setForm] = useState({
-    name: "",
-    email: "",
-    password: "",
-    image: null as File | null,
-    pdf: null as File | null,
-    excel: null as File | null,
-  });
-
+  const [form, setForm] = useState(initialFormState);
   const [loading, setLoading] = useState(false);
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, files } = e.target;
-
     if (files && files.length > 0) {
       setForm((prev) => ({ ...prev, [name]: files[0] }));
     } else {
@@ -35,12 +34,9 @@ export default function CreateUserPage() {
     setLoading(true);
 
     const formData = new FormData();
-    formData.append("name", form.name);
-    formData.append("email", form.email);
-    formData.append("password", form.password);
-    if (form.image) formData.append("image", form.image);
-    if (form.pdf) formData.append("pdf", form.pdf);
-    if (form.excel) formData.append("excel", form.excel);
+    Object.entries(form).forEach(([key, val]) => {
+      if (val) formData.append(key, val);
+    });
 
     try {
       await createUser(formData);
@@ -53,96 +49,73 @@ export default function CreateUserPage() {
   };
 
   return (
-    <div className="min-h-screen px-6 py-10 font-sans">
-      <div className="max-w-xl mx-auto bg-white p-8 rounded-lg shadow-md">
-        <h2 className="text-2xl font-bold mb-6 text-gray-800">
-          Tambah Pengguna Baru
-        </h2>
-
+    <div className="min-h-screen px-5 py-6 font-sans bg-gradient-to-br from-[rgba(244,139,123,0.24)] via-[rgba(120,120,255,0.72)] to-[rgba(174,65,247,0.49)]">
+      <h2 className="text-[32px] font-bold mb-6 text-gray-750 items-center text-center">
+        Tambah Pengguna Baru
+      </h2>
+      <div
+        className="max-w-xl mx-auto bg-[#FFECEC] p-8 rounded-lg shadow-md border"
+        style={{ borderColor: "#662691", borderWidth: "5px" }}
+      >
         <form onSubmit={handleSubmit} className="space-y-5">
-          <div>
-            <label className="block font-medium mb-1">Nama</label>
-            <input
-              type="text"
-              name="name"
-              value={form.name}
-              onChange={handleChange}
-              required
-              className="w-full border border-gray-300 rounded-md px-4 py-2 focus:ring-2 focus:ring-indigo-400"
-            />
-          </div>
+          <FileInput
+            label="Upload Foto Profil"
+            name="image"
+            accept="image/*"
+            onChange={handleChange}
+          />
+          <InputField
+            label="Nama"
+            type="text"
+            name="name"
+            value={form.name}
+            onChange={handleChange}
+            required
+          />
+          <InputField
+            label="Email"
+            type="email"
+            name="email"
+            value={form.email}
+            onChange={handleChange}
+            required
+          />
+          <InputField
+            label="Password"
+            type="password"
+            name="password"
+            value={form.password}
+            onChange={handleChange}
+            required
+          />
 
-          <div>
-            <label className="block font-medium mb-1">Email</label>
-            <input
-              type="email"
-              name="email"
-              value={form.email}
-              onChange={handleChange}
-              required
-              className="w-full border border-gray-300 rounded-md px-4 py-2 focus:ring-2 focus:ring-indigo-400"
-            />
-          </div>
+          <FileInput
+            label="File PDF"
+            name="pdf"
+            accept="application/pdf"
+            onChange={handleChange}
+          />
+          <FileInput
+            label="File Excel"
+            name="excel"
+            accept=".xlsx,.xls"
+            onChange={handleChange}
+          />
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Password
-            </label>
-            <input
-              type="password"
-              name="password"
-              required
-              value={form.password}
-              onChange={handleChange}
-              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring focus:border-indigo-500"
-            />
-          </div>
-
-          <div>
-            <label className="block font-medium mb-1">Foto Profil</label>
-            <input
-              type="file"
-              name="image"
-              accept="image/*"
-              onChange={handleChange}
-              className="w-full"
-            />
-          </div>
-
-          <div>
-            <label className="block font-medium mb-1">File PDF</label>
-            <input
-              type="file"
-              name="pdf"
-              accept="application/pdf"
-              onChange={handleChange}
-              className="w-full"
-            />
-          </div>
-
-          <div>
-            <label className="block font-medium mb-1">File Excel</label>
-            <input
-              type="file"
-              name="excel"
-              accept=".xlsx,.xls"
-              onChange={handleChange}
-              className="w-full"
-            />
-          </div>
-
-          <div className="flex justify-between items-center mt-6">
+          <div className="flex justify-end gap-2 items-center mt-6">
             <button
               type="button"
               onClick={() => router.back()}
-              className="text-gray-500 hover:underline"
+              className="text-white bg-[#9D9D9D] hover:bg-[#7C7C7C] py-1 px-4 rounded-[5px]"
             >
-              ← Batal
+              Batal
             </button>
             <button
               type="submit"
               disabled={loading}
-              className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-md font-medium shadow disabled:opacity-50"
+              className={`bg-[rgba(120,120,255,0.7)] hover:bg-[rgba(120,120,255,0.9)] text-white px-4 py-1 rounded-[5px] ${
+                loading ? "opacity-60 cursor-not-allowed" : ""
+              }`}
             >
               {loading ? "Menyimpan..." : "Simpan"}
             </button>

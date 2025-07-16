@@ -5,15 +5,19 @@ import { useRouter } from "next/navigation";
 import { getUsers, deleteUser } from "@/lib/api";
 import type { User } from "@/types/user";
 import UserRow from "@/components/UserRow";
+import LoadingRow from "@/components/LoadingRow";
 
 export default function UsersPage() {
   const router = useRouter();
   const [users, setUsers] = useState<User[]>([]);
+  const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
+    setLoading(true);
     getUsers()
       .then((res) => setUsers(res.data))
-      .catch((err) => console.error("Failed to fetch users:", err));
+      .catch((err) => console.error("Failed to fetch users:", err))
+      .finally(() => setLoading(false));
   }, []);
 
   const handleDelete = async (id: number) => {
@@ -31,13 +35,13 @@ export default function UsersPage() {
       <div className="mb-6 flex gap-4">
         <button
           onClick={() => router.push("/")}
-          className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md font-medium shadow"
+          className="bg-[rgba(120,120,255,0.72)] hover:bg-[rgba(120,120,255,0.8)] text-white px-4 py-2 rounded-md font-medium shadow"
         >
           ← Kembali ke Dashboard
         </button>
         <button
           onClick={() => router.push("/users/create")}
-          className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md font-medium shadow"
+          className="bg-[rgba(120,120,255,0.72)] hover:bg-[rgba(120,120,255,0.8)] text-white px-4 py-2 rounded-md font-medium shadow"
         >
           + Tambah User
         </button>
@@ -49,16 +53,20 @@ export default function UsersPage() {
         <table className="w-full bg-white shadow rounded-md">
           <thead className="bg-indigo-100 text-gray-700">
             <tr>
-              <th className="text-left p-3">Foto Profil</th>
+              <th className="text-center p-3">Foto Profil</th>
               <th className="text-left p-3">Nama</th>
               <th className="text-left p-3">Email</th>
-              <th className="text-left p-3">PDF</th>
-              <th className="text-left p-3">Excel</th>
+              <th className="text-center p-3">PDF</th>
+              <th className="text-center p-3">Excel</th>
               <th className="text-center p-3">Aksi</th>
             </tr>
           </thead>
           <tbody>
-            {users.length > 0 ? (
+            {isLoading ? (
+              <>
+                <LoadingRow colCount={6} />
+              </>
+            ) : users.length > 0 ? (
               users.map((user) => (
                 <UserRow key={user.id} user={user} onDelete={handleDelete} />
               ))
