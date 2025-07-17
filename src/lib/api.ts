@@ -1,7 +1,7 @@
 import axios from "axios";
 import { User } from "@/types/user";
 
-const API_BASE_URL = "http://localhost:8000/api/users";
+const API_BASE_URL = "https://first-laravel-2-production.up.railway.app/api/users";
 
 export const getUsers = () => {
   return axios.get<User[]>(`${API_BASE_URL}`);
