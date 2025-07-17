@@ -11,15 +11,25 @@ export default function UserDetailPage() {
   const router = useRouter();
   const { id } = useParams();
   const userId = Array.isArray(id) ? Number(id[0]) : Number(id);
+interface User {
+  id: number;
+  name: string;
+  email: string;
+  image_path: string;
+  pdf_path: string | null;
+  excel_path: string | null;
+}
 
-  const [user, setUser] = useState<any>(null);
+const [user, setUser] = useState<User | null>(null);
+
+  // const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchUser = async () => {
       try {
         const res = await getUserById(userId);
-        setUser(res.data);
+        setUser(res.data as User);
       } catch (err) {
         console.error("Gagal ambil data user:", err);
       } finally {
