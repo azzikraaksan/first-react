@@ -15,22 +15,20 @@ export default function UserRow({ user, onDelete }: Props) {
   return (
     <tr className="border-b hover:bg-gray-50">
       <td className="p-3 text-center align-middle w-[200px]">
-        {user.image_path ? (
-          <img
-            src={`${STORAGE_URL}/${user.image_path}`}
-            alt="Foto Profil"
-            className="w-[120px] h-[120px] object-cover rounded-[10px] justify-center items-center"
-          />
-        ) : (
-          <span className="text-gray-400">-</span>
-        )}
+        <img
+          src={user.image_path}
+          alt="Foto Profil"
+          className="w-[120px] h-[120px] object-cover rounded-[10px] justify-center items-center"
+        />
       </td>
       <td className="p-3">{user.name}</td>
       <td className="p-3">{user.email}</td>
       <td className="p-3 text-center align-middle">
         {user.pdf_path ? (
           <a
-            href={`${STORAGE_URL}/${user.pdf_path}`}
+            href={user.pdf_path}
+            // href={`${user.pdf_path}.pdf`}
+            // href={`https://docs.google.com/viewer?url=${encodeURIComponent(user.pdf_path)}&embedded=true`}
             target="_blank"
             rel="noopener noreferrer"
             className="flex justify-center items-center"
@@ -44,7 +42,8 @@ export default function UserRow({ user, onDelete }: Props) {
       <td className="p-3 text-center align-middle">
         {user.excel_path ? (
           <a
-            href={`${STORAGE_URL}/${user.excel_path}`}
+            href={user.excel_path}
+            // href={`https://docs.google.com/gview?url=${encodeURIComponent(user.excel_path)}&embedded=true`}
             target="_blank"
             rel="noopener noreferrer"
             className="flex justify-center items-center"
