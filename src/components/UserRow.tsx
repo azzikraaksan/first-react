@@ -39,9 +39,7 @@ export default function UserRow({ user, onDelete }: Props) {
       <td className="p-3 text-center align-middle">
         {user.excel_path ? (
           <a
-            href={`https://view.officeapps.live.com/op/view.aspx?src=${encodeURIComponent(
-              user.excel_path
-            )}`}
+            href={user.excel_path}
             target="_blank"
             rel="noopener noreferrer"
             className="flex justify-center items-center"
