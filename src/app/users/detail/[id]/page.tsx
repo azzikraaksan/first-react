@@ -65,12 +65,12 @@ const [user, setUser] = useState<User | null>(null);
           ← Kembali
         </button>
 
-      <div style={{ borderWidth: 4 }} className="bg-white border border-[#7878FF] border-opacity-30 shadow-lg rounded-md p-6 max-w-4xl mx-auto">
+      <div style={{ borderWidth: 4 }} className="mt-5 bg-white border border-[#7878FF] border-opacity-30 shadow-lg rounded-md p-6 max-w-4xl mx-auto">
         <div className="flex flex-col md:flex-row items-start gap-6">
           <img
-            src={`${STORAGE_URL}/${user.image_path}`}
+            src={user.image_path}
             alt="Foto Profil"
-            className="w-[235px] h-[235px] object-cover rounded-md"
+            className="w-[245px] h-[245px] object-cover rounded-md"
           />
           <div className="flex-1 space-y-5">
             <div>
@@ -94,7 +94,7 @@ const [user, setUser] = useState<User | null>(null);
                 <p className="text-sm mb-1 font-medium">PDF</p>
                 {user.pdf_path ? (
                   <a
-                    href={`${STORAGE_URL}/${user.pdf_path}`}
+                    href={user.pdf_path}
                     target="_blank"
                     className="inline-flex justify-center items-center bg-[#E5E5FF] w-[80px] h-[40px] rounded"
                   >
@@ -108,7 +108,7 @@ const [user, setUser] = useState<User | null>(null);
                 <p className="text-sm mb-1 font-medium">Excel</p>
                 {user.excel_path ? (
                   <a
-                    href={`${STORAGE_URL}/${user.excel_path}`}
+                    href={user.excel_path}
                     target="_blank"
                     className="inline-flex justify-center items-center bg-[#E5E5FF] w-[80px] h-[40px] rounded"
                   >

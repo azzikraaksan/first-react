@@ -1,5 +1,4 @@
 import { User } from "@/types/user";
-import { STORAGE_URL } from "@/constants/config";
 import { useRouter } from "next/navigation";
 import { BiSolidFilePdf } from "react-icons/bi";
 import { FaFileExcel } from "react-icons/fa6";
@@ -18,7 +17,7 @@ export default function UserRow({ user, onDelete }: Props) {
         <img
           src={user.image_path}
           alt="Foto Profil"
-          className="w-[120px] h-[120px] object-cover rounded-[10px] justify-center items-center"
+          className="w-[100px] h-[100px] object-cover rounded-[10px] justify-center items-center"
         />
       </td>
       <td className="p-3">{user.name}</td>
