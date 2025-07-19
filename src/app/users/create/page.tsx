@@ -59,7 +59,7 @@ export default function CreateUserPage() {
       >
         <form onSubmit={handleSubmit} className="space-y-5">
           <FileInput
-            label="Upload Foto Profil"
+            label="Upload Foto Profil (Maks 1 MB)"
             name="image"
             accept="image/*"
             onChange={handleChange}
@@ -90,13 +90,13 @@ export default function CreateUserPage() {
           />
 
           <FileInput
-            label="File PDF"
+            label="File PDF (Maks 4 MB)"
             name="pdf"
-            accept="application/pdf"
+            accept=".pdf,application/pdf"
             onChange={handleChange}
           />
           <FileInput
-            label="File Excel"
+            label="File Excel (Maks 4 MB)"
             name="excel"
             accept=".xlsx,.xls"
             onChange={handleChange}

@@ -26,8 +26,6 @@ export default function UserRow({ user, onDelete }: Props) {
         {user.pdf_path ? (
           <a
             href={user.pdf_path}
-            // href={`${user.pdf_path}.pdf`}
-            // href={`https://docs.google.com/viewer?url=${encodeURIComponent(user.pdf_path)}&embedded=true`}
             target="_blank"
             rel="noopener noreferrer"
             className="flex justify-center items-center"
@@ -41,8 +39,9 @@ export default function UserRow({ user, onDelete }: Props) {
       <td className="p-3 text-center align-middle">
         {user.excel_path ? (
           <a
-            href={user.excel_path}
-            // href={`https://docs.google.com/gview?url=${encodeURIComponent(user.excel_path)}&embedded=true`}
+            href={`https://view.officeapps.live.com/op/view.aspx?src=${encodeURIComponent(
+              user.excel_path
+            )}`}
             target="_blank"
             rel="noopener noreferrer"
             className="flex justify-center items-center"
@@ -53,6 +52,7 @@ export default function UserRow({ user, onDelete }: Props) {
           <span className="text-gray-400">-</span>
         )}
       </td>
+
       <td className="text-center w-[220px]">
         <div className="flex justify-center gap-2">
           <button
